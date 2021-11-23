@@ -2,16 +2,9 @@
 
 public sealed class WindowsBackgroundService : BackgroundService
 {
-    public override async Task StartAsync(CancellationToken cancellationToken)
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        while (!cancellationToken.IsCancellationRequested)
-        {
-            await Job.DoJob();
-        }
-    }
-
-    protected override Task ExecuteAsync(CancellationToken stoppingToken)
-    {
-        throw new NotImplementedException();
+        var jobs = new List<Func<Task>> { Job.DoJob1, Job.DoJob2 };
+        await Parallel.ForEachAsync(jobs, stoppingToken, async (job, _) => await job.Invoke());
     }
 }
