@@ -10,15 +10,15 @@ public sealed class JobManager
         var fullPathFile = Path.Combine(pathFile, "asyncCnrScheduler.txt");
         using var writer = new StreamWriter(fullPathFile, true);
         writer.WriteLineAsync("*** Counter : xxx ***");
-        writer.WriteLineAsync($"time 1 :  {TimeOnly.FromDateTime(DateTime.Now):s.fff}");
+        writer.WriteLineAsync($"time 1 :  {TimeOnly.FromDateTime(DateTime.Now):H:m:s.fff}");
         Thread.Sleep(10_000);
-        writer.WriteLineAsync($"time 2 :  {TimeOnly.FromDateTime(DateTime.Now):s.fff}");
+        writer.WriteLineAsync($"time 2 :  {TimeOnly.FromDateTime(DateTime.Now):H:m:s.fff}");
         Thread.Sleep(10_000);
-        writer.WriteLineAsync($"time 3 :  {TimeOnly.FromDateTime(DateTime.Now):s.fff}");
+        writer.WriteLineAsync($"time 3 :  {TimeOnly.FromDateTime(DateTime.Now):H:m:s.fff}");
         Thread.Sleep(10_000);
-        writer.WriteLineAsync($"time 4 :  {TimeOnly.FromDateTime(DateTime.Now):s.fff}");
+        writer.WriteLineAsync($"time 4 :  {TimeOnly.FromDateTime(DateTime.Now):H:m:s.fff}");
         Thread.Sleep(10_000);
-        writer.WriteLineAsync($"time 5 :  {TimeOnly.FromDateTime(DateTime.Now):s.fff}");
+        writer.WriteLineAsync($"time 5 :  {TimeOnly.FromDateTime(DateTime.Now):H:m:s.fff}");
     }
 
     public async Task DoJob2(CancellationToken cancellationToken)
@@ -32,15 +32,15 @@ public sealed class JobManager
             var fullPathFile = Path.Combine(pathFile, "async.txt");
             await using var writer = new StreamWriter(fullPathFile, true);
             await writer.WriteLineAsync($"*** Counter : {counter} ***");
-            await writer.WriteLineAsync($"time 1 :  {TimeOnly.FromDateTime(DateTime.Now):s.fff}");
+            await writer.WriteLineAsync($"time 1 :  {TimeOnly.FromDateTime(DateTime.Now):H:m:s.fff}");
             await Task.Delay(10_000);
-            await writer.WriteLineAsync($"time 2 :  {TimeOnly.FromDateTime(DateTime.Now):s.fff}");
+            await writer.WriteLineAsync($"time 2 :  {TimeOnly.FromDateTime(DateTime.Now):H:m:s.fff}");
             await Task.Delay(10_000);
-            await writer.WriteLineAsync($"time 3 :  {TimeOnly.FromDateTime(DateTime.Now):s.fff}");
-            await Task.Delay(10_000);
-            await writer.WriteLineAsync($"time 4 :  {TimeOnly.FromDateTime(DateTime.Now):s.fff}");
-            await Task.Delay(10_000, cancellationToken); // no waiting if cancelled
-            await writer.WriteLineAsync($"time 5 :  {TimeOnly.FromDateTime(DateTime.Now):s.fff}");
+            await writer.WriteLineAsync($"time 3 :  {TimeOnly.FromDateTime(DateTime.Now):H:m:s.fff}");
+            await Task.Delay(10_000);                                                    
+            await writer.WriteLineAsync($"time 4 :  {TimeOnly.FromDateTime(DateTime.Now):H:m:s.fff}");
+            await Task.Delay(10_000, cancellationToken); // no waiting if cancelled      
+            await writer.WriteLineAsync($"time 5 :  {TimeOnly.FromDateTime(DateTime.Now):H:m:s.fff}");
         }
     }
 }
