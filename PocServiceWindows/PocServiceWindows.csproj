@@ -10,4 +10,9 @@
 		<PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="6.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.0" />
 	</ItemGroup>
+	<ItemGroup>
+	  <Reference Include="CNR-Shared.Base">
+	    <HintPath>..\CNR-Shared\CNR-Shared.Base.dll</HintPath>
+	  </Reference>
+	</ItemGroup>
 </Project>
