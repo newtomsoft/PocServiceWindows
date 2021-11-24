@@ -11,13 +11,13 @@ public sealed class JobManager
         using var writer = new StreamWriter(fullPathFile, true);
         writer.WriteLineAsync("*** Counter : xxx ***");
         writer.WriteLineAsync($"time 1 :  {TimeOnly.FromDateTime(DateTime.Now):s.fff}");
-        Thread.Sleep(1000);
+        Thread.Sleep(10_000);
         writer.WriteLineAsync($"time 2 :  {TimeOnly.FromDateTime(DateTime.Now):s.fff}");
-        Thread.Sleep(1000);
+        Thread.Sleep(10_000);
         writer.WriteLineAsync($"time 3 :  {TimeOnly.FromDateTime(DateTime.Now):s.fff}");
-        Thread.Sleep(1000);
+        Thread.Sleep(10_000);
         writer.WriteLineAsync($"time 4 :  {TimeOnly.FromDateTime(DateTime.Now):s.fff}");
-        Thread.Sleep(1000);
+        Thread.Sleep(10_000);
         writer.WriteLineAsync($"time 5 :  {TimeOnly.FromDateTime(DateTime.Now):s.fff}");
     }
 
@@ -33,13 +33,13 @@ public sealed class JobManager
             await using var writer = new StreamWriter(fullPathFile, true);
             await writer.WriteLineAsync($"*** Counter : {counter} ***");
             await writer.WriteLineAsync($"time 1 :  {TimeOnly.FromDateTime(DateTime.Now):s.fff}");
-            await Task.Delay(1000);
+            await Task.Delay(10_000);
             await writer.WriteLineAsync($"time 2 :  {TimeOnly.FromDateTime(DateTime.Now):s.fff}");
-            await Task.Delay(1000);
+            await Task.Delay(10_000);
             await writer.WriteLineAsync($"time 3 :  {TimeOnly.FromDateTime(DateTime.Now):s.fff}");
-            await Task.Delay(1000);
+            await Task.Delay(10_000);
             await writer.WriteLineAsync($"time 4 :  {TimeOnly.FromDateTime(DateTime.Now):s.fff}");
-            await Task.Delay(1000, cancellationToken); // no waiting if cancelled
+            await Task.Delay(10_000, cancellationToken); // no waiting if cancelled
             await writer.WriteLineAsync($"time 5 :  {TimeOnly.FromDateTime(DateTime.Now):s.fff}");
         }
     }

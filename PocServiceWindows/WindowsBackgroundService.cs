@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using Cnr.Shared.EventScheduler;
+﻿using Cnr.Shared.EventScheduler;
 
 namespace PocServiceWindows;
 
@@ -17,7 +16,7 @@ public sealed class WindowsBackgroundService : BackgroundService
         var jobManager = new JobManager();
         var scheduler = new Scheduler();
 
-        var job1Schedule = new IntervalSchedule("job1", DateTime.Now, 5);
+        var job1Schedule = new IntervalSchedule("job1", DateTime.Now, 50);
         job1Schedule.Triggered += jobManager.DoJob1;
         scheduler.AddSchedule(job1Schedule);
     }
