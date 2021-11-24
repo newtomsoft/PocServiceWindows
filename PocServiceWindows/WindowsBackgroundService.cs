@@ -11,7 +11,7 @@ public sealed class WindowsBackgroundService : BackgroundService
     }
 
 
-    private void LunchCnrScheduler()
+    private static void LunchCnrScheduler()
     {
         var jobManager = new JobManager();
         var scheduler = new Scheduler();
@@ -21,10 +21,10 @@ public sealed class WindowsBackgroundService : BackgroundService
         scheduler.AddSchedule(job1Schedule);
     }
 
-    private async Task LunchFrameworkScheduler(CancellationToken stoppingToken)
+    private static async Task LunchFrameworkScheduler(CancellationToken stoppingToken)
     {
-        var jobManager = new JobManager();
-        var jobs = new List<Func<CancellationToken, Task>> { jobManager.DoJob2 };
+        var endDateTime = DateTime.Now.AddMinutes(5);
+        var jobs = new List<Func<CancellationToken, Task>> { cancellationToken => JobManager.DoJob2(cancellationToken, endDateTime) };
         await Parallel.ForEachAsync(jobs, stoppingToken, async (job, _) => await job.Invoke(stoppingToken));
     }
 

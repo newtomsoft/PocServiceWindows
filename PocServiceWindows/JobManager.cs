@@ -21,12 +21,13 @@ public sealed class JobManager
         writer.WriteLineAsync($"time 5 :  {TimeOnly.FromDateTime(DateTime.Now):H:m:s.fff}");
     }
 
-    public async Task DoJob2(CancellationToken cancellationToken)
+    public static async Task DoJob2(CancellationToken cancellationToken, DateTime endDateTime)
     {
         var counter = 0;
         var timer = new PeriodicTimer(TimeSpan.FromMilliseconds(500));
         while (await timer.WaitForNextTickAsync(cancellationToken))
         {
+            if (DateTime.Now > endDateTime) return;
             counter++;
             const string pathFile = "c:\\PocServiceWindows";
             var fullPathFile = Path.Combine(pathFile, "async.txt");
