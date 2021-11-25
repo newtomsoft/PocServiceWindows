@@ -6,7 +6,7 @@ public sealed class WindowsBackgroundService : BackgroundService
 {
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        LunchCnrScheduler();
+        //LunchCnrScheduler();
         await LunchFrameworkScheduler(stoppingToken);
     }
 
@@ -23,9 +23,10 @@ public sealed class WindowsBackgroundService : BackgroundService
 
     private static async Task LunchFrameworkScheduler(CancellationToken stoppingToken)
     {
-        var endDateTime = DateTime.Now.AddMinutes(5);
-        var jobs = new List<Func<CancellationToken, Task>> { cancellationToken => JobManager.DoJob2(cancellationToken, endDateTime) };
+        var startDateTime = DateTime.Now.AddSeconds(5);
+        var endDateTime = startDateTime.AddHours(1);
+        var jobs = new List<Func<CancellationToken, Task>> { cancellationToken => JobManager.DoJob2(startDateTime, endDateTime, cancellationToken) };
+
         await Parallel.ForEachAsync(jobs, stoppingToken, async (job, _) => await job.Invoke(stoppingToken));
     }
-
 }

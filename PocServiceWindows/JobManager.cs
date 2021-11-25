@@ -21,27 +21,29 @@ public sealed class JobManager
         writer.WriteLineAsync($"time 5 :  {TimeOnly.FromDateTime(DateTime.Now):H:m:s.fff}");
     }
 
-    public static async Task DoJob2(CancellationToken cancellationToken, DateTime endDateTime)
+    public static async Task DoJob2(DateTime startDateTime, DateTime endDateTime, CancellationToken cancellationToken)
     {
+        const string filePath = "c:\\PocServiceWindows";
+        const string fileName = "async.txt";
+        var fullFileName = Path.Combine(filePath, fileName);
         var counter = 0;
-        var timer = new PeriodicTimer(TimeSpan.FromMilliseconds(500));
+        var timer = new PeriodicTimer(TimeSpan.FromMilliseconds(1_000));
         while (await timer.WaitForNextTickAsync(cancellationToken))
         {
-            if (DateTime.Now > endDateTime) return;
+            var now = DateTime.Now;
+            if (now < startDateTime) continue;
+            if (now > endDateTime) return;
             counter++;
-            const string pathFile = "c:\\PocServiceWindows";
-            var fullPathFile = Path.Combine(pathFile, "async.txt");
-            await using var writer = new StreamWriter(fullPathFile, true);
+            await using var writer = new StreamWriter(fullFileName, true);
             await writer.WriteLineAsync($"*** Counter : {counter} ***");
-            await writer.WriteLineAsync($"time 1 :  {TimeOnly.FromDateTime(DateTime.Now):H:m:s.fff}");
-            await Task.Delay(10_000);
-            await writer.WriteLineAsync($"time 2 :  {TimeOnly.FromDateTime(DateTime.Now):H:m:s.fff}");
-            await Task.Delay(10_000);
-            await writer.WriteLineAsync($"time 3 :  {TimeOnly.FromDateTime(DateTime.Now):H:m:s.fff}");
-            await Task.Delay(10_000);                                                    
-            await writer.WriteLineAsync($"time 4 :  {TimeOnly.FromDateTime(DateTime.Now):H:m:s.fff}");
-            await Task.Delay(10_000, cancellationToken); // no waiting if cancelled      
-            await writer.WriteLineAsync($"time 5 :  {TimeOnly.FromDateTime(DateTime.Now):H:m:s.fff}");
+            for (var iteration = 0; iteration < 100; iteration++) await WriteIteration(writer, iteration);
         }
+    }
+
+    private static async Task WriteIteration(TextWriter writer, int iteration)
+    {
+        await writer.WriteLineAsync($"iteration {iteration} : {DateTime.Now:H:m:s.fff}");
+        await Task.Delay(1_000);
+        await writer.FlushAsync();
     }
 }
